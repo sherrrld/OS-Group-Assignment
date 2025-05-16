@@ -46,4 +46,42 @@ void fcfsScheduling(Process proc[], int n) {
 
 // Priority Scheduling (non-preemptive)
 void priorityScheduling(Process proc[], int n) {
-    // Susun ikut priority (
+    // Susun ikut priority (nombor lebih kecil = lebih penting)
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (proc[j].priority < proc[i].priority) {
+                swap(proc[i], proc[j]);
+            }
+        }
+    }
+
+    int wt[n], tat[n];
+    findWaitingTime(proc, n, wt);
+    findTurnAroundTime(proc, n, wt, tat);
+    printResults("Priority", proc, n, wt, tat);
+}
+
+int main() {
+    // Input: {course code, duration, priority, arrival time}
+    Process proc[] = {
+        {2201, 3, 2, 1},
+        {3401, 2, 3, 2},
+        {1103, 1, 1, 3}
+    };
+    int n = sizeof(proc) / sizeof(proc[0]);
+
+    // Salin array supaya setiap algoritma dapat data asal
+    Process proc_fcfs[3], proc_priority[3];
+    for (int i = 0; i < n; i++) {
+        proc_fcfs[i] = proc[i];
+        proc_priority[i] = proc[i];
+    }
+
+    // Jalankan FCFS
+    fcfsScheduling(proc_fcfs, n);
+
+    // Jalankan Priority Scheduling
+    priorityScheduling(proc_priority, n);
+
+    return 0;
+}
