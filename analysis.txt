@@ -1,1 +1,39 @@
+FCFS 
 
+// Description of the Algorithm
+The First-Come, First-Served (FCFS) algorithm is the simplest scheduling algorithm, where the classes (or processes) are scheduled in the order they appear in the queue. It is a non-preemptive algorithm, meaning once a class is scheduled, it will run to completion without interruption.
+
+In FCFS, all parameters like priority and arrival time are ignored. Scheduling is purely based on the original input order.
+
+// Input Used
+We used the following class input for simulation, in the form {course_code, duration, priority, arrival_time}:
+
+  Process proc[] = {
+    {2201, 3, 2, 1},  // CSC2201, 3 hours, priority 2, wants to start first
+    {3401, 2, 3, 2},  // CSC3401, 2 hours, priority 3, wants to start second
+    {1103, 1, 1, 3}   // CSC1103, 1 hour, priority 1, wants to start third
+};
+
+Note: FCFS ignores both the priority and the preferred start time (arrival time).
+
+// Output from FCFS Algorithm
+Based on the above input, the order of scheduling is:
+
+  FCFS Scheduling Order:
+  Course 2201 Course 3401 Course 1103
+
+Waiting Times:
+  Course 2201: 0
+  Course 3401: 3
+  Course 1103: 5
+
+Turnaround Times:
+  Course 2201: 3
+  Course 3401: 5
+  Course 1103: 6
+
+Average Waiting Time:
+(0+3+5)/3 = 2.67 hours
+
+Average Turnaround Time:
+(3+5+6)/3 = 4.67 hours
