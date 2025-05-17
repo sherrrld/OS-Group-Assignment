@@ -1,0 +1,25 @@
+Analysis of FCFS and Priority Scheduling Algorithms (also from gppttt)
+
+Input:
+Courses:
+- CSC2201: 3 hours, priority 2, arrival time 1
+- CSC3401: 2 hours, priority 3, arrival time 2
+- CSC1103: 1 hour, priority 1, arrival time 3
+
+FCFS Output:
+Order: CSC2201 → CSC3401 → CSC1103
+Average Waiting Time: 2.33
+Average Turnaround Time: 4.33
+
+Priority Scheduling Output:
+Order: CSC2201 → CSC1103 → CSC3401
+Average Waiting Time: 1
+Average Turnaround Time: 3.67
+
+Analysis:
+FCFS is straightforward and schedules based on arrival time only. It doesn't consider course importance (priority), which can delay more critical courses.
+
+Priority Scheduling improves performance by scheduling high-priority classes earlier, provided they've already arrived. This leads to better average waiting and turnaround times.
+
+Conclusion:
+Priority Scheduling is more suitable for class scheduling where course importance matters and arrival times are known.
