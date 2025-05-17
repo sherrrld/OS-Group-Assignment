@@ -5,26 +5,26 @@ using namespace std;
 struct Process {
     int ccode;         // course code
     int duration;      // class duration
-    int priority;      // priority (lower is higher)
+    int priority;      // priority
     int arrival_time;  // preferred arrival time
 };
 
-// Calculate waiting time
-void findWaitingTime(Process proc[], int n, int wt[]) {
+// Function to calculate waiting time for ordered process list
+void calculateWaitingTime(Process proc[], int n, int wt[]) {
     wt[0] = 0;
     for (int i = 1; i < n; i++) {
-        wt[i] = proc[i - 1].duration + wt[i - 1];
+        wt[i] = wt[i - 1] + proc[i - 1].duration;
     }
 }
 
-// Calculate turnaround time
-void findTurnAroundTime(Process proc[], int n, int wt[], int tat[]) {
+// Function to calculate turnaround time from waiting time
+void calculateTurnaroundTime(Process proc[], int n, int wt[], int tat[]) {
     for (int i = 0; i < n; i++) {
         tat[i] = proc[i].duration + wt[i];
     }
 }
 
-// Print scheduling results
+// Function to print results
 void printResults(string algoName, Process proc[], int n, int wt[], int tat[]) {
     float total_wt = 0, total_tat = 0;
     cout << "\n" << algoName << " Scheduling Order:\n";
@@ -37,60 +37,49 @@ void printResults(string algoName, Process proc[], int n, int wt[], int tat[]) {
     cout << "\nAverage Turnaround Time: " << total_tat / n << endl;
 }
 
-// FCFS scheduling using arrival time
+// FCFS Scheduling (ignores arrival time and priority)
 void fcfsScheduling(Process proc[], int n) {
-    // Sort by arrival time
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = i + 1; j < n; j++) {
-            if (proc[j].arrival_time < proc[i].arrival_time) {
-                swap(proc[i], proc[j]);
-            }
-        }
-    }
-
     int wt[n], tat[n];
-    findWaitingTime(proc, n, wt);
-    findTurnAroundTime(proc, n, wt, tat);
+    calculateWaitingTime(proc, n, wt);
+    calculateTurnaroundTime(proc, n, wt, tat);
     printResults("FCFS", proc, n, wt, tat);
 }
 
-// Non-preemptive priority scheduling using arrival time
+// Non-preemptive Priority Scheduling (uses arrival time and priority)
 void priorityScheduling(Process proc[], int n) {
-    bool done[n] = {false};
+    bool completed[n] = {false};
     int currentTime = 0;
-    int completed = 0;
     int wt[n], tat[n];
-    Process result[n];
+    Process scheduled[n];
+    int count = 0;
 
-    while (completed < n) {
+    while (count < n) {
         int idx = -1;
-        int highestPriority = INT_MAX;
+        int minPriority = INT_MAX;
 
-        // Find the highest priority among arrived processes
         for (int i = 0; i < n; i++) {
-            if (!done[i] && proc[i].arrival_time <= currentTime) {
-                if (proc[i].priority < highestPriority) {
-                    highestPriority = proc[i].priority;
+            if (!completed[i] && proc[i].arrival_time <= currentTime) {
+                if (proc[i].priority < minPriority) {
+                    minPriority = proc[i].priority;
                     idx = i;
                 }
             }
         }
 
-        if (idx == -1) {
-            currentTime++; // No class ready yet
-            continue;
+        if (idx != -1) {
+            wt[count] = currentTime - proc[idx].arrival_time;
+            if (wt[count] < 0) wt[count] = 0;
+            currentTime += proc[idx].duration;
+            tat[count] = wt[count] + proc[idx].duration;
+            scheduled[count] = proc[idx];
+            completed[idx] = true;
+            count++;
+        } else {
+            currentTime++;
         }
-
-        wt[idx] = currentTime - proc[idx].arrival_time;
-        if (wt[idx] < 0) wt[idx] = 0;
-
-        currentTime += proc[idx].duration;
-        tat[idx] = wt[idx] + proc[idx].duration;
-        result[completed++] = proc[idx];
-        done[idx] = true;
     }
 
-    printResults("Priority (w/ Arrival Time)", result, n, wt, tat);
+    printResults("Priority Scheduling", scheduled, n, wt, tat);
 }
 
 int main() {
@@ -102,15 +91,17 @@ int main() {
     };
     int n = sizeof(proc) / sizeof(proc[0]);
 
-    // Clone original process list for both algorithms
+    // Make copies for both scheduling methods
     Process proc_fcfs[3], proc_priority[3];
     for (int i = 0; i < n; i++) {
         proc_fcfs[i] = proc[i];
         proc_priority[i] = proc[i];
     }
 
-    // Run both scheduling algorithms
+    // Run FCFS (no arrival time used)
     fcfsScheduling(proc_fcfs, n);
+
+    // Run Priority Scheduling (uses arrival time)
     priorityScheduling(proc_priority, n);
 
     return 0;
