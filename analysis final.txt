@@ -1,0 +1,97 @@
+Following is the C++ code which shows two CPU scheduling algorithms:
+
+1.First come first served (FCFS)
+
+This simple algorithm processes tasks in the order they arrive. The implementation fcfs Scheduling function depends on arrival-time-pre-sorted ness of the proc array to order waiting and turnaround times. Oddly enough, it never actually uses the arrival time member of the Process struct in its entirety, meaning either:
+
+Processes are input in order of their arrival time
+
+The routing strategy is greedy under the assumption of simultaneous arrivals (time 2. To read this graph for a demand of 1, we pick the first arriving request on any edge and draw the corresponding dashed line.
+
+2.Non-Preemptive Priority Scheduling
+
+This approach selects first for the process with the highest priority (lower integer numbers). The function priority Scheduling, chooses the highest priority process from all of the arrived processes (arrival time check) and runs it until its completed without other processes. Some important features:
+
+Processes are not preempted after they start, even if the process becomes less important than an arriving higher-priority task.
+
+Arrival times determine eligibility but do not change which sorting order to use
+
+
+Lower values (e.g., 1) take precedence over higher values (e.g., 5)
+
+Both algorithms demonstrate simple scheduling methods, with FCFS emphasizing order of arrival fairness over task priority and priority scheduling task priority over order.
+
+Here's a streamlined explanation of the code and its outcomes:
+Process Setup & What’s Going On So, you’ve got this “Process” deal—it’s basically just a bunch of info jammed together: which class it is (like 2201 or whatever), how long the thing takes, how important it is, and when it shows up. Three little helper functions keep tabs on the math and printing. Oh, and some test data with three courses: - 2201: Needs 3 units, medium-important (priority 2), shows up at 1 - 3401: Needs 2 units, highest-priority (3), strolls in at 2 - 1103: Basically the slacker—just 1 unit, lowest priority, but shows up surprisingly late at 3 FCFS Results (First Come, First Served— they’re in line : 2201, then 3401, then 1103. Doesn’t care who’s most important or when everyone wandered in—it’s like, “I see you first, I help you first.” Not exactly a genius strategy, but hey, it gets stuff done. So yeah, super basic. Doesn't fuss about who’s more urgent or anything.             Performance Metrics:
+
+Waiting Times:
+2201: 0 (starts immediately)
+3401: 3 (waits for 2201's 3-unit run)
+1103: 5 (waits for both predecessors)
+Average: (0 + 3 + 5)/3 = 2.67
+
+Turnaround Times:
+2201: 3 (0 wait + 3 runtime)
+3401: 5 (3 wait + 2 runtime)                                                           
+
+   priority Scheduling Results
+Execution Order: 2201 → 1103 → 3401
+Despite arrival times, priority dictates execution after current tasks finish:
+
+2201 starts at t=1 (only available process)
+
+1103 (priority 1) jumps ahead of 3401 at t=4 when 2201 finishes
+
+3401 runs last as lowest priority
+
+Performance Metrics:
+
+Waiting Times:
+2201: 0 (starts on arrival)
+1103: 1 (waits from t=3 arrival to t=4 start)
+3401: 3 (waits from t=2 arrival to t=5 start)
+Average: (0 + 1 + 3)/3 = 1.33
+
+Turnaround Times:
+2201: 3 (runtime only)
+1103: 2 (1 wait + 1 runtime)3401: 5 (3 wait + 2 runtime)
+Average: (3 + 2 + 5)/3 = 3.33
+
+Key Insight
+Priority scheduling outperforms FCFS in this scenario, reducing average waiting time by 50% (2.67 → 1.33) and turnaround time by 29% (4.67 → 3.33). This demonstrates how prioritizing critical tasks can optimize system efficiency, even with staggered arrivals.
+
+The analysis reveals significant performance differences between FCFS and Priority Scheduling in this academic scheduling scenario:
+
+Key Metric Comparison
+
+Metric	FCFS	Priority	Improvement
+Avg. Waiting Time	2.67	1.33	50% reduction
+Avg. Turnaround Time	4.67	3.33	29% reduction
+Execution Patterns
+So, FCFS (First Come First Served) just goes down the list—2201, then 3401, then 1103. No flexibility. It’s like waiting in line at the DMV, honestly—if you’re unlucky, tough luck, you wait. That “convoy effect” they talk about? That’s just a fancy way of saying little jobs (like course 1103) get stuck behind big, slow ones for ages. Now, Priority Scheduling comes in and messes up the whole queue—in a good way. Instead of just following the list, it basically goes: “1103 is quick and way more important. ” So 2201, then 1103, and finally 3401. Super efficient, fewer people standing . Letting the shortest, most urgent tasks skip ahead saves everyone time. 
+
+First-Come, First-Served  
+✓ Strengths:  
+- Easy to implement (no complicated sorting involved)  
+- No risk of starvation — every course will eventually be scheduled  
+
+✗ Weaknesses:  
+- Struggles with tasks of varying durations  
+- Average wait time can grow significantly when task durations differ  
+
+Priority Scheduling  
+✓ Strengths:  
+- Focuses on critical tasks (like urgent academic deadlines)  
+- Helps to reduce congestion for high-priority items  
+
+✗ Weaknesses:  
+- Can lead to starvation for lower-priority courses (for instance, the 3401 course waited for 3 units of time)  
+- Needs a system for assigning priorities (whether static or dynamic)  
+
+Educational Context Implications  
+While Priority Scheduling tends to show better performance metrics in this context, its success really hinges on:  
+- Accurate priority assignments (like distinguishing between lab sessions and lectures)  
+- Having systems in place to avoid consistently delaying low-priority courses  
+- A balance between fairness and efficiency  
+
+This situation illustrates how Priority Scheduling could significantly improve the allocation of academic resources when set up correctly. However, schools and institutions need to consider the trade-offs and ensure that efficiency doesn’t come at the expense of equitable course access.
