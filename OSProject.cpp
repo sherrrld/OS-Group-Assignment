@@ -37,7 +37,7 @@ void printResults(string algoName, Process proc[], int n, int wt[], int tat[]) {
     cout << "\nAverage Turnaround Time: " << total_tat / n << endl;
 }
 
-// FCFS Scheduling (ignores arrival time and priority)
+// FCFS Scheduling 
 void fcfsScheduling(Process proc[], int n) {
     int wt[n], tat[n];
     calculateWaitingTime(proc, n, wt);
@@ -45,7 +45,7 @@ void fcfsScheduling(Process proc[], int n) {
     printResults("FCFS", proc, n, wt, tat);
 }
 
-// Non-preemptive Priority Scheduling (uses arrival time and priority)
+// Non-preemptive Priority Scheduling 
 void priorityScheduling(Process proc[], int n) {
     bool completed[n] = {false};
     int currentTime = 0;
@@ -98,10 +98,10 @@ int main() {
         proc_priority[i] = proc[i];
     }
 
-    // Run FCFS (no arrival time used)
+    // Run FCFS 
     fcfsScheduling(proc_fcfs, n);
 
-    // Run Priority Scheduling (uses arrival time)
+    // Run Priority Scheduling
     priorityScheduling(proc_priority, n);
 
     return 0;
