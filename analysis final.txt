@@ -21,8 +21,24 @@ Lower values (e.g., 1) take precedence over higher values (e.g., 5)
 
 Both algorithms demonstrate simple scheduling methods, with FCFS emphasizing order of arrival fairness over task priority and priority scheduling task priority over order.
 
-Here's a streamlined explanation of the code and its outcomes:
-Process Setup & What’s Going On So, you’ve got this “Process” deal—it’s basically just a bunch of info jammed together: which class it is (like 2201 or whatever), how long the thing takes, how important it is, and when it shows up. Three little helper functions keep tabs on the math and printing. Oh, and some test data with three courses: - 2201: Needs 3 units, medium-important (priority 2), shows up at 1 - 3401: Needs 2 units, highest-priority (3), strolls in at 2 - 1103: Basically the slacker—just 1 unit, lowest priority, but shows up surprisingly late at 3 FCFS Results (First Come, First Served— they’re in line : 2201, then 3401, then 1103. Doesn’t care who’s most important or when everyone wandered in—it’s like, “I see you first, I help you first.” Not exactly a genius strategy, but hey, it gets stuff done. So yeah, super basic. Doesn't fuss about who’s more urgent or anything.             Performance Metrics:
+Process Setup and Overview
+Each process in the program represents a scheduled academic class, encapsulating relevant information such as course code, class duration, priority level, and arrival time. The code structure includes utility functions responsible for computing waiting times, turnaround times, and printing scheduling outcomes.
+
+Process Input:
+2201: Requires 3 time units, medium priority (priority level 2), arrives at time 1
+3401: Requires 2 time units, lowest priority (priority level 3), arrives at time 2
+1103: Requires 1 time unit, highest priority (priority level 1), arrives at time 3
+
+This setup simulates a small set of academic scheduling tasks with varying urgency and timing.
+
+FCFS (First-Come, First-Served) Results:
+The FCFS algorithm schedules processes strictly based on their position in the input list, without considering their arrival time or priority. The resulting execution order is:
+
+Execution Sequence: 2201 → 3401 → 1103
+
+This approach does not prioritize urgent tasks or account for staggered arrivals. Instead, it adheres to a basic queue-like structure. Hence, the first process listed is executed first, followed by the rest in order, regardless of their importance or timing.
+
+Performance Metrics:
 
 Waiting Times:
 2201: 0 (starts immediately)
@@ -34,7 +50,7 @@ Turnaround Times:
 2201: 3 (0 wait + 3 runtime)
 3401: 5 (3 wait + 2 runtime)                                                           
 
-   priority Scheduling Results
+Priority Scheduling Results
 Execution Order: 2201 → 1103 → 3401
 Despite arrival times, priority dictates execution after current tasks finish:
 
@@ -64,9 +80,10 @@ The analysis reveals significant performance differences between FCFS and Priori
 
 Key Metric Comparison
 
-Metric	FCFS	Priority	Improvement
-Avg. Waiting Time	2.67	1.33	50% reduction
-Avg. Turnaround Time	4.67	3.33	29% reduction
+Metric			FCFS	Priority	Improvement
+Avg. Waiting Time	2.67	1.33		50% reduction
+Avg. Turnaround Time	4.67	3.33		29% reduction
+
 Execution Patterns
 So, FCFS (First Come First Served) just goes down the list—2201, then 3401, then 1103. No flexibility. It’s like waiting in line at the DMV, honestly—if you’re unlucky, tough luck, you wait. That “convoy effect” they talk about? That’s just a fancy way of saying little jobs (like course 1103) get stuck behind big, slow ones for ages. Now, Priority Scheduling comes in and messes up the whole queue—in a good way. Instead of just following the list, it basically goes: “1103 is quick and way more important. ” So 2201, then 1103, and finally 3401. Super efficient, fewer people standing . Letting the shortest, most urgent tasks skip ahead saves everyone time. 
 
